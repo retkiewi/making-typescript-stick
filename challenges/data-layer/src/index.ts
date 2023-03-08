@@ -13,4 +13,12 @@ export type DataEntityMap = {
   song: Song;
 };
 
-export class DataStore {}
+type DataStoreMethods = { 
+  [K in keyof DataEntityMap as `getAll${Capitalize<K>}s`]: () => DataEntityMap[K][];
+} & {
+  [K in keyof DataEntityMap as `get${Capitalize<K>}`]: (id: string) => DataEntityMap[K];
+} & {
+  [K in keyof DataEntityMap as `clear${Capitalize<K>}s`]: () => void;
+}
+
+export class DataStore implements DataStoreMethods { }
